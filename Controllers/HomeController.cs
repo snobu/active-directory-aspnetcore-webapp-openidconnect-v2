@@ -33,7 +33,7 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
             var accessToken =
                 await tokenAcquisition.GetAccessTokenOnBehalfOfUser(HttpContext, new[] {Constants.ScopeUserRead});
 
-            var me = await graphApiOperations.CallOnBehalfOfUserAsync(accessToken);
+            var me = await graphApiOperations.GetUserInformation(accessToken);
             var photo = await graphApiOperations.GetPhotoAsBase64Async(accessToken);
 
             ViewData["Me"] = me;

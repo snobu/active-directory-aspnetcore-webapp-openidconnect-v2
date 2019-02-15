@@ -53,7 +53,7 @@ namespace Microsoft.AspNetCore.Authentication
     /// </summary>
     public class TokenAcquisition : ITokenAcquisition
     {
-        private readonly AzureAdOptions azureAdOptions;
+        private readonly AzureADOptions azureAdOptions;
 
         private readonly ITokenCacheProvider tokenCacheProvider;
 
@@ -63,9 +63,10 @@ namespace Microsoft.AspNetCore.Authentication
         /// This constructor is called by ASP.NET Core dependency injection
         /// </summary>
         /// <param name="options">Options to configure the application</param>
-        public TokenAcquisition(ITokenCacheProvider tokenCacheProvider, IOptions<AzureAdOptions> options)
+        public TokenAcquisition(ITokenCacheProvider tokenCacheProvider, IConfiguration configuration)
         {
-            azureAdOptions = options.Value;
+            azureAdOptions = new AzureADOptions();
+            configuration.Bind("AzureAD", azureAdOptions);
             this.tokenCacheProvider = tokenCacheProvider;
         }
 

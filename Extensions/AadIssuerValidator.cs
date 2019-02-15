@@ -28,7 +28,7 @@ namespace Microsoft.AspNetCore.Authentication
             }
 
             // Extracting the tenant ID
-            var tenantId = jwtToken.Claims.FirstOrDefault(c => c.Type == "tid")?.Value;
+            string tenantId = jwtToken.Claims.FirstOrDefault(c => c.Type == "tid")?.Value;
             if (string.IsNullOrEmpty(tenantId))
             {
                 throw new SecurityTokenInvalidIssuerException("Expecting a tid claim from Azure Active Directory.");
@@ -43,7 +43,7 @@ namespace Microsoft.AspNetCore.Authentication
                 allValidIssuers.AddRange(validIssuers.Select(i => TenantedIssuer(i, tenantId)));
             }
 
-            var validIssuer = validationParameters.ValidIssuer;
+            string validIssuer = validationParameters.ValidIssuer;
             if (validIssuer != null)
             {
                 allValidIssuers.Add(TenantedIssuer(validIssuer, tenantId));
