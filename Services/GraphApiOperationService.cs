@@ -23,12 +23,12 @@ namespace WebApp_OpenIDConnect_DotNet.Services
             webOptions = webOptionValue.Value;
         }
 
-        public async Task<dynamic> CallOnBehalfOfUserAsync(string accessToken)
+        public async Task<dynamic> GetUserInformation(string accessToken)
         {
             httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue(Constants.AuthorizationScheme,
+                new AuthenticationHeaderValue(Constants.BearerAuthorizationScheme,
                                               accessToken);
-            var response = await httpClient.GetAsync(webOptions.GraphApiUrl);
+            var response = await httpClient.GetAsync($"{webOptions.GraphApiUrl}/beta/me");
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -44,10 +44,10 @@ namespace WebApp_OpenIDConnect_DotNet.Services
         public async Task<string> GetPhotoAsBase64Async(string accessToken)
         {
             httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue(Constants.AuthorizationScheme,
+                new AuthenticationHeaderValue(Constants.BearerAuthorizationScheme,
                                               accessToken);
 
-            var response = await httpClient.GetAsync("https://graph.microsoft.com/beta/me/photo/$value");
+            var response = await httpClient.GetAsync($"{webOptions.GraphApiUrl}/beta/me/photo/$value");
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 byte[] photo = await response.Content.ReadAsByteArrayAsync();

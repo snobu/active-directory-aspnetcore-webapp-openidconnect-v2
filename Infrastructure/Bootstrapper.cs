@@ -25,7 +25,7 @@ namespace WebApp_OpenIDConnect_DotNet.Infrastructure
                                                         options.MinimumSameSitePolicy = SameSiteMode.None;
                                                     });
             services.Configure<WebOptions>(configuration);
-            services.Configure<AzureAdOptions>(configuration.GetSection("AzureAd"));
+//            services.Configure<AzureADOptions>(configuration.GetSection("AzureAd"));
             //https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests
             services.AddHttpClient<IGraphApiOperations, GraphApiOperationService>();
         }
@@ -77,7 +77,7 @@ namespace WebApp_OpenIDConnect_DotNet.Infrastructure
                 // issuers you want to accept to options.TokenValidationParameters.ValidIssuers collection
 
                 // Response type
-                options.ResponseType = Constants.OpenIdResponseType;
+                options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
                 options.Scope.Add(Constants.ScopeOfflineAccess);
                 options.Scope.Add(Constants.ScopeUserRead);
                 //                options.Prompt = "consent";
